@@ -12,6 +12,7 @@
 ##' @param jitter logical; overplot with jittered individual datapoints
 ##' @param custom_palette character; define color palette for x
 ##' @param title character; title of plot
+##'
 ##' @example
 ##' \dontrun{
 ##' custom_boxplot(data = dataframe,
@@ -20,8 +21,12 @@
 ##'                fill_variable = "numeric_variable",
 ##'                title = "Plot title")
 ##' }
+##'
 ##' @export
-##' @import tidyverse
+##'
+##' @import ggplot2
+##' @import dplyr
+##' @import grid
 custom_boxplot <-
   function(data,
            filename = NULL,
@@ -35,21 +40,21 @@ custom_boxplot <-
            jitter = FALSE,
            custom_palette = NULL) {
 
-    ## load required packages
-    require(grid)
-    require(gridExtra)
-
     ## Export plot as pdf if filename is passed to function
-    if (is.character(filename)){
-      pdf(file = filename,
-          width = width,
-          height = height,
-          pointsize = 7,
-          useDingbats = FALSE)
+    if (is.character(filename)) {
+      pdf(
+        file = filename,
+        width = width,
+        height = height,
+        pointsize = 7,
+        useDingbats = FALSE
+      )
     }
 
     ## Convert tibble to data frame
-    if (is_tibble(data)) {data <- as.data.frame(data)}
+    if (is_tibble(data)) {
+      data <- as.data.frame(data)
+    }
 
     ## Drop empty levels from dataframe and remove lines with NAs
     ## (the latter prevents ggplot from emitting warnings about removing NAs!!)
@@ -96,30 +101,50 @@ custom_boxplot <-
             width = 0.35
           )
       } +
-      {if(jitter)scale_fill_manual(values = pal)} +
-      {if(log_y)scale_y_continuous(trans = 'log2')} +
+      {
+        if (jitter)
+          scale_fill_manual(values = pal)
+      } +
+      {
+        if (log_y)
+          scale_y_continuous(trans = 'log2')
+      } +
       # scale_y_continuous(breaks = c(0, 20, 40, 60), limits = c(0, 70)) +
       theme_bw() +
       theme_custom +
       ggtitle(title) +
       ylab(ifelse(!is.null(ylab), ylab, y)) +
-      geom_text(data = data %>% count_(x),
-                aes_string(
-                  x = x,
-                  y = ifelse(log_y, max(data[, y], na.rm = TRUE) ^ 1.1, max(data[, y], na.rm = TRUE) * 1.1),
-                  vjust = -1.72,
-                  label = bquote(paste0("(", n, ")")),
-                  fill = NULL),
-                size = 5*5/14)  +
+      geom_text(
+        data = data %>% count_(x),
+        aes_string(
+          x = x,
+          y = ifelse(
+            log_y,
+            max(data[, y], na.rm = TRUE) ^ 1.1,
+            max(data[, y], na.rm = TRUE) * 1.1
+          ),
+          vjust = -1.72,
+          label = bquote(paste0("(", n, ")")),
+          fill = NULL
+        ),
+        size = 5 * 5 / 14
+      )  +
       if (jitter == TRUE) {
-        geom_text(data = data %>% count_(x),
-                  aes_string(
-                    x = x,
-                    y = ifelse(log_y, max(data[, y], na.rm = TRUE) ^ 1.1, max(data[, y], na.rm = TRUE) * 1.1),
-                    vjust = -1.72,
-                    label = bquote(paste0("(", n, ")")),
-                    fill = NULL),
-                  size = 5*5/14)
+        geom_text(
+          data = data %>% count_(x),
+          aes_string(
+            x = x,
+            y = ifelse(
+              log_y,
+              max(data[, y], na.rm = TRUE) ^ 1.1,
+              max(data[, y], na.rm = TRUE) * 1.1
+            ),
+            vjust = -1.72,
+            label = bquote(paste0("(", n, ")")),
+            fill = NULL
+          ),
+          size = 5 * 5 / 14
+        )
       }
 
     # Override clipping
@@ -133,7 +158,6 @@ custom_boxplot <-
 
       ## Crop whitespace
       system(paste("pdfcrop", filename, filename))
-
       message("Plot saved under ", filename)
+      }
     }
-  }

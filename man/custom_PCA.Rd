@@ -19,5 +19,5 @@ custom_PCA(object, intgroup = "condition", ntop = 500,
 \item{custom_pal}{character; colors to customize group colors}
 }
 \description{
-This function is customized alteration of DESeq2's XXX function.
+This function is customized version of DESeq2's plotPCA function.
 }

@@ -1,12 +1,15 @@
 ##'  Plot customized PCA
 ##'
-##' This function is customized alteration of DESeq2's XXX function.
+##' This function is customized version of DESeq2's plotPCA function.
+##'
 ##' @param object Deseq dataset object
 ##' @param intgroup character; variable defining groups
 ##' @param ntop numeric; number of genes with highes variance to include in analysis
 ##' @param returnData logical; return data rather than plot
 ##' @param custom_pal character; colors to customize group colors
+##'
 ##' @export
+##'
 ##' @import ggplot2
 custom_PCA <-
   function(object,

@@ -1,7 +1,6 @@
 ##' Plot customized barplot
 ##'
 ##' Creates a customized barchart and optionally exports it as a pdf.
-##' Partly inspired by the IMvigor2010CoreBiologies R package (Mariathasan, Nature, 2018).
 ##' @param data matrix; contains variables x and fill_variable
 ##' @param filename character or \code{NULL}; filename for export or no export
 ##' @param x character; variable for x aesthetic
@@ -9,6 +8,7 @@
 ##' @param custom_palette character; define palette of fill_variable
 ##' @param title character
 ##' @param ylab character; y-axis label
+##'
 ##' @example
 ##' \dontrun{
 ##' custom_barplot(data = dataframe,
@@ -17,7 +17,9 @@
 ##'                fill_variable = "gender",
 ##'                title = "Plot title")
 ##' }
+##'
 ##' @import grDevices
+##'
 ##' @export
 custom_barplot <-
   function(data,

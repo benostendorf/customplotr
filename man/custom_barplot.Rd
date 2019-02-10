@@ -25,5 +25,4 @@ custom_barplot(data, filename = NULL, x, fill_variable,
 }
 \description{
 Creates a customized barchart and optionally exports it as a pdf.
-Partly inspired by the IMvigor2010CoreBiologies R package (Mariathasan, Nature, 2018).
 }
