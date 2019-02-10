@@ -1,16 +1,17 @@
 ##' Plot customized survival graphs
 ##'
 ##' Creates a customized survival plot and optionally exports it as a pdf.
-##' Partly inspired by the IMvigor2010CoreBiologies R package (Mariathasan, Nature, 2018).
 ##' @param survFit survfit object
 ##' @param filename character or \code{NULL}; filename for export or no export
 ##' @param title character; plot title
 ##' @param xlab character; x-axis label
 ##' @param ylab character; y-axis label
+##' @param trend logical; toggle test for trend in logrank test
 ##' @param custom_palette character; color palette for groups
 ##' @param custom_legends character; overwrite legend labels (see warning below)
 ##' @param width numeric; width of pdf export in cm
 ##' @param height numeric; height of pdf export in cm
+##'
 ##' @example
 ##' \dontrun{
 ##' survival.plot(survFit = survfit,
@@ -19,6 +20,7 @@
 ##'               title = "Plot title")
 ##' }
 ##' @export
+##'
 ##' @import survival
 ##' @import survminer
 custom_survplot <- function(survFit,
@@ -26,10 +28,17 @@ custom_survplot <- function(survFit,
                             title = NULL,
                             xlab = "Overall survival (years)",
                             ylab = "Survival probability",
+                            trend = FALSE,
                             custom_palette = NULL,
                             custom_legends = NULL,
                             width = 2,
                             height = 2.2) {
+
+  if((length(survFit$strata) < 3) && (trend == TRUE)) {
+    warning("Test for trend can only be applied when there are more than 2 groups. \n
+            Test for trend was set to 'FALSE'. ")
+    trend <- FALSE
+  }
 
   ## Warning re: correct order of custom labels
   if(!is.null(custom_legends)) {
@@ -37,10 +46,6 @@ custom_survplot <- function(survFit,
     print(data.frame(custom_legends = custom_legends,
                      names_in_df = sapply(strsplit(names(survFit$strata), "="), "[", 2)))
   }
-
-  ## Load survival for plot function and survminer for logrank-p calculation
-  require(survival)
-  require(survminer)
 
   ## Export plot as pdf if filename is passed to function
   if (is.character(filename)) {
@@ -108,6 +113,7 @@ custom_survplot <- function(survFit,
   title(ylab = ylab,
         line = 1.8,
         cex.lab = 6 / 7)
+
   ## Plot title
   mtext(title,
         side = 3,
@@ -125,7 +131,7 @@ custom_survplot <- function(survFit,
     groups <- paste0(custom_legends, " (", survFit$n, ")")
   )
 
-  ## Legend; here, both colors and labels can reversed to put E4 on top in analogy to curves
+  ## Legend; here, both colors and labels can reversed in analogy to curves
   ## by adding 'rev()' to both the assignments for 'legend' and 'col'
   legend(
     "topright",
@@ -137,8 +143,9 @@ custom_survplot <- function(survFit,
   )
 
   ## Include log-rank p-value
+  pvalue <- surv_pvalue(survFit, test.for.trend = trend)$pval
   text(0.8 * max(survFit$time), 0.4,
-       paste0("p = ", format.pval(surv_pvalue(survFit)$pval, digits = 2)),
+       paste0("p = ", format.pval(pvalue, digits = 2)),
        cex = 6 /7)
 
   ## Close pdf export
@@ -147,7 +154,6 @@ custom_survplot <- function(survFit,
 
     ## Crop whitespace
     system(paste("pdfcrop", filename, filename))
-
     message("Plot saved under ", filename)
   }
 }

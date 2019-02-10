@@ -6,8 +6,8 @@
 \usage{
 custom_survplot(survFit, filename = NULL, title = NULL,
   xlab = "Overall survival (years)", ylab = "Survival probability",
-  custom_palette = NULL, custom_legends = NULL, width = 2,
-  height = 2.2)
+  trend = FALSE, custom_palette = NULL, custom_legends = NULL,
+  width = 2, height = 2.2)
 }
 \arguments{
 \item{survFit}{survfit object}
@@ -20,6 +20,8 @@ custom_survplot(survFit, filename = NULL, title = NULL,
 
 \item{ylab}{character; y-axis label}
 
+\item{trend}{logical; toggle test for trend in logrank test}
+
 \item{custom_palette}{character; color palette for groups}
 
 \item{custom_legends}{character; overwrite legend labels (see warning below)}
@@ -30,5 +32,4 @@ custom_survplot(survFit, filename = NULL, title = NULL,
 }
 \description{
 Creates a customized survival plot and optionally exports it as a pdf.
-Partly inspired by the IMvigor2010CoreBiologies R package (Mariathasan, Nature, 2018).
 }
