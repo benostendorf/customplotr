@@ -30,6 +30,15 @@ custom_barplot <-
            title = "Plot title",
            ylab = "Fraction of patients") {
 
+    ## Convert tibble to data frame
+    if (is_tibble(data)) {
+      data <- as.data.frame(data)
+    }
+
+    ## Drop empty factor levels
+    data[, x] <- factor(data[, x])
+    data[, fill_variable] <- factor(data[, fill_variable])
+
     ## Export plot as pdf if filename is passed to function
     if (is.character(filename)) {
       pdf(
@@ -40,15 +49,6 @@ custom_barplot <-
         useDingbats = FALSE
       )
     }
-
-    ## Convert tibble to data frame
-    if (is_tibble(data)) {
-      data <- as.data.frame(data)
-    }
-
-    ## Drop empty factor levels
-    data[, x] <- factor(data[, x])
-    data[, fill_variable] <- factor(data[, fill_variable])
 
     ## Define color palette for plot depending on number of groups
     ## cave: here color palettes were reversed since stack order of bars was also reversed

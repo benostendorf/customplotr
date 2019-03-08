@@ -28,6 +28,7 @@ custom_survplot <- function(survFit,
                             title = NULL,
                             xlab = "Overall survival (years)",
                             ylab = "Survival probability",
+                            xmax = NULL,
                             trend = FALSE,
                             custom_palette = NULL,
                             custom_legends = NULL,
@@ -80,25 +81,38 @@ custom_survplot <- function(survFit,
     mark.time = TRUE,
     cex = 0.5,
     cex.axis = 5 / 7,
+    xmax = xmax,
     yaxt = "n",
     xaxt = "n"
   )
-  axis(1,
-       at = seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
-                          ifelse(max(survFit$time) < 3652.5, 3652.5,
-                                 ifelse(max(survFit$time) < 5478.75, 5478.75,
-                                        ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
-                ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)),
-       seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
-                     ifelse(max(survFit$time) < 3652.5, 3652.5,
-                            ifelse(max(survFit$time) < 5478.75, 5478.75,
-                                   ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
-           ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)) / 365.25,
-       cex.axis = 5 / 7,
-       lwd = 5 / 8,
-       tck = -0.025,
-       padj = -1.8
-  )
+  if (is.null(xmax)) {
+    axis(1,
+         at = seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
+                            ifelse(max(survFit$time) < 3652.5, 3652.5,
+                                   ifelse(max(survFit$time) < 5478.75, 5478.75,
+                                          ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
+                  ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)),
+         seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
+                       ifelse(max(survFit$time) < 3652.5, 3652.5,
+                              ifelse(max(survFit$time) < 5478.75, 5478.75,
+                                     ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
+             ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)) / 365.25,
+         cex.axis = 5 / 7,
+         lwd = 5 / 8,
+         tck = -0.025,
+         padj = -1.8
+    )
+  } else {
+    axis(1,
+         at = seq(0, xmax, 730.5),
+         seq(0, xmax, 730.5)  / 365.25,
+         cex.axis = 5 / 7,
+         lwd = 5 / 8,
+         tck = -0.025,
+         padj = -1.8
+    )
+  }
+
   axis(2,
        at = seq(0, 1, 0.2),
        seq(0, 1, 0.2),

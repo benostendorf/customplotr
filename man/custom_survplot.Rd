@@ -6,8 +6,8 @@
 \usage{
 custom_survplot(survFit, filename = NULL, title = NULL,
   xlab = "Overall survival (years)", ylab = "Survival probability",
-  trend = FALSE, custom_palette = NULL, custom_legends = NULL,
-  width = 2, height = 2.2)
+  xmax = NULL, trend = FALSE, custom_palette = NULL,
+  custom_legends = NULL, width = 2, height = 2.2)
 }
 \arguments{
 \item{survFit}{survfit object}
