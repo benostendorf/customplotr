@@ -1,7 +1,7 @@
 Package: customplotr
 Type: Package
 Title: Plot customized graphs
-Version: 0.1.0
+Version: 0.1.1
 Author: Benjamin Ostendorf <benjamin.ostendorf@gmail.com>
 Maintainer: Benjamin Ostendorf <benjamin.ostendorf@gmail.com>
 Description: The customplotr packages provides customized functions for plotting barcharts, 

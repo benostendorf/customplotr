@@ -1,16 +1,23 @@
 ##' Plot customized survival graphs
 ##'
 ##' Creates a customized survival plot and optionally exports it as a pdf.
+##' The risk.table argument of this function is based on the 'plotSurvival2' function developed
+##' by Yuanyuan Xiao and Dorothee Nickles as part of the 'Imvigor210CoreBiologies'
+##' package (http://research-pub.gene.com/IMvigor210CoreBiologies/).
 ##' @param survFit survfit object
 ##' @param filename character or \code{NULL}; filename for export or no export
 ##' @param title character; plot title
 ##' @param xlab character; x-axis label
 ##' @param ylab character; y-axis label
+##' @param xmax numeric; x-axis limit
 ##' @param trend logical; toggle test for trend in logrank test
 ##' @param custom_palette character; color palette for groups
 ##' @param custom_legends character; overwrite legend labels (see warning below)
+##' @param risk.table logical; toggle generation of number at risk table below survival plot
+##' @param mar numeric vector; plotting margins
 ##' @param width numeric; width of pdf export in cm
 ##' @param height numeric; height of pdf export in cm
+##' @author Benjamin N. Ostendorf
 ##'
 ##' @example
 ##' \dontrun{
@@ -23,6 +30,7 @@
 ##'
 ##' @import survival
 ##' @import survminer
+##' @import cowplot
 custom_survplot <- function(survFit,
                             filename = NULL,
                             title = NULL,
@@ -32,6 +40,8 @@ custom_survplot <- function(survFit,
                             trend = FALSE,
                             custom_palette = NULL,
                             custom_legends = NULL,
+                            risk.table = FALSE,
+                            mar = c(12,9,3,2),
                             width = 2,
                             height = 2.2) {
 
@@ -58,7 +68,6 @@ custom_survplot <- function(survFit,
       useDingbats = FALSE
     )
   }
-
   ## Define color palette for plot depending on number of groups
   ifelse(
     length(survFit$strata) < 5,
@@ -86,17 +95,13 @@ custom_survplot <- function(survFit,
     xaxt = "n"
   )
   if (is.null(xmax)) {
+    xmax <- ifelse(max(survFit$time) < 1826.25, 1826.25,
+                        ifelse(max(survFit$time) < 3652.5, 3652.5,
+                               ifelse(max(survFit$time) < 5478.75, 5478.75,
+                                      ifelse(max(survFit$time) < 7305, 7305, 9496.5))))
     axis(1,
-         at = seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
-                            ifelse(max(survFit$time) < 3652.5, 3652.5,
-                                   ifelse(max(survFit$time) < 5478.75, 5478.75,
-                                          ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
-                  ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)),
-         seq(0, ifelse(max(survFit$time) < 1826.25, 1826.25,
-                       ifelse(max(survFit$time) < 3652.5, 3652.5,
-                              ifelse(max(survFit$time) < 5478.75, 5478.75,
-                                     ifelse(max(survFit$time) < 7305, 7305, 9496.5)))),
-             ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)) / 365.25,
+         at = seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)),
+         seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)) / 365.25,
          cex.axis = 5 / 7,
          lwd = 5 / 8,
          tck = -0.025,
@@ -112,7 +117,6 @@ custom_survplot <- function(survFit,
          padj = -1.8
     )
   }
-
   axis(2,
        at = seq(0, 1, 0.2),
        seq(0, 1, 0.2),
@@ -158,14 +162,58 @@ custom_survplot <- function(survFit,
 
   ## Include log-rank p-value
   pvalue <- surv_pvalue(survFit, test.for.trend = trend)$pval
-  text(0.8 * max(survFit$time), 0.4,
+  text(0.8 * xmax, 0.4,
        paste0("p = ", format.pval(pvalue, digits = 2)),
        cex = 6 /7)
+
+  ## Risk table
+  if (risk.table) {
+    group.labels <- gsub(x = names(survFit$strata), pattern = ".*=| .*", "")
+    print(length(group.labels))
+
+    ## Compute number at risk
+    time.pt <- seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5))
+    ix = 0
+    n.risk = c()
+    for (kk in 1:(length(survFit$strata))) {
+      fit.n.risk = survFit$n.risk[(ix+1) : (ix + survFit$strata[kk])]
+      fit.time = survFit$time[(ix+1) : (ix + survFit$strata[kk])]
+      tmp = findInterval(time.pt, fit.time)
+      n.risk=rbind(n.risk,
+                   ifelse(tmp < length(fit.time), fit.n.risk[tmp+1], 0)
+      )
+      ix = ix + survFit$strata[kk]
+    }
+    dimnames(n.risk)[[2]] = time.pt
+
+    if (mar[1]<4+length(group.labels)) {
+      mar[1] <- 4+length(group.labels)
+    }
+    org.mar <- par()$mar
+    par(mar=mar)
+
+    ## Plot number at risk
+    cust_margin_dist <- seq(from = 9.4, by = 0.8, length.out = 10)
+    for (i in 1:length(group.labels)) {
+      mtext(side = 1,
+            at = -0.24*xmax,
+            line = cust_margin_dist[i],
+            text = group.labels[i],
+            #col = pal[i],
+            adj = 0,
+            cex = 5/7)
+      mtext(side = 1,
+            at = time.pt,
+            line = cust_margin_dist[i],
+            text = n.risk[i, ],
+            col = pal[i],
+            cex = 5/7)
+    }
+  }
 
   ## Close pdf export
   if (is.character(filename)) {
     dev.off()
-
     ## Crop whitespace
     system(paste("pdfcrop", filename, filename))
     message("Plot saved under ", filename)
