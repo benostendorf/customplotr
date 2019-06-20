@@ -15,6 +15,7 @@ custom_PCA <-
   function(object,
            intgroup = "condition",
            ntop = 500,
+           pointsize = 2,
            returnData = FALSE,
            custom_pal = NULL) {
 
@@ -54,7 +55,7 @@ custom_PCA <-
       return(d)
     }
     ggplot(data = d, aes_string(x = "PC1", y = "PC2", color = "group")) +
-      geom_point(size = 2, alpha = 0.75, stroke = 0) +
+      geom_point(size = pointsize, alpha = 0.75, stroke = 0) +
       xlab(paste0("PC1: ", round(percentVar[1] * 100), " % variance")) +
       ylab(paste0("PC2: ", round(percentVar[2] * 100), " % variance")) +
       scale_color_manual(values = pal) +

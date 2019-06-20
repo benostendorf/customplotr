@@ -30,7 +30,6 @@
 ##'
 ##' @import survival
 ##' @import survminer
-##' @import cowplot
 custom_survplot <- function(survFit,
                             filename = NULL,
                             title = NULL,
@@ -100,8 +99,8 @@ custom_survplot <- function(survFit,
                                ifelse(max(survFit$time) < 5478.75, 5478.75,
                                       ifelse(max(survFit$time) < 7305, 7305, 9496.5))))
     axis(1,
-         at = seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)),
-         seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5)) / 365.25,
+         at = seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5)),
+         seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5)) / 365.25,
          cex.axis = 5 / 7,
          lwd = 5 / 8,
          tck = -0.025,
@@ -140,7 +139,10 @@ custom_survplot <- function(survFit,
         line = 0.5)
 
   ## Generate vector for legend labels with group sizes
-  groups <- paste0(sapply(strsplit(names(survFit$strata), "="), "[", 2), " (", survFit$n, ")")
+  ifelse(risk.table,
+         groups <- paste0(sapply(strsplit(names(survFit$strata), "="), "[", 2)),
+         groups <- paste0(sapply(strsplit(names(survFit$strata), "="), "[", 2), " (", survFit$n, ")")
+         )
 
   ## Integrate custom legend labels
   ifelse(
@@ -169,10 +171,9 @@ custom_survplot <- function(survFit,
   ## Risk table
   if (risk.table) {
     group.labels <- gsub(x = names(survFit$strata), pattern = ".*=| .*", "")
-    print(length(group.labels))
 
     ## Compute number at risk
-    time.pt <- seq(0, xmax, ifelse(max(survFit$time) < 1826.25, 365.25, 730.5))
+    time.pt <- seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5))
     ix = 0
     n.risk = c()
     for (kk in 1:(length(survFit$strata))) {
@@ -199,7 +200,7 @@ custom_survplot <- function(survFit,
             at = -0.24*xmax,
             line = cust_margin_dist[i],
             text = group.labels[i],
-            #col = pal[i],
+            col = pal[i],
             adj = 0,
             cex = 5/7)
       mtext(side = 1,
@@ -208,6 +209,11 @@ custom_survplot <- function(survFit,
             text = n.risk[i, ],
             col = pal[i],
             cex = 5/7)
+    }
+
+    ## reset mar that was changed to allow adding numbers underneath plot
+    if (risk.table) {
+      par(mar=org.mar)
     }
   }
 
