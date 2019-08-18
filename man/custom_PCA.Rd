@@ -4,7 +4,7 @@
 \alias{custom_PCA}
 \title{Plot customized PCA}
 \usage{
-custom_PCA(object, intgroup = "condition", ntop = 500,
+custom_PCA(object, intgroup = "condition", ntop = 500, pointsize = 2,
   returnData = FALSE, custom_pal = NULL)
 }
 \arguments{
