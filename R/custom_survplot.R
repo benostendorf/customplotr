@@ -78,8 +78,16 @@ custom_survplot <- function(survFit,
          pal <- pal,
          pal <- custom_palette)
 
-  ## Plot
   # ifelse(is.null(title), par(mar = c(2.3, 2.7, 0, 0)), par(mar = c(2.3, 2.7, 1.7, 0)))
+  ## Customize x-axis limit if not provided
+  if (is.null(xmax)) {
+    xmax <- ifelse(max(survFit$time) <= 4 * 365.25, 4 * 365.25,
+                   ifelse(max(survFit$time) < 5 * 365.25, 5 * 365.25,
+                          ifelse(max(survFit$time) < 10 * 365.25, 10 * 365.25,
+                                 ifelse(max(survFit$time) < 15 * 365.25, 15 * 365.25,
+                                        ifelse(max(survFit$time) < 20 * 365.25, 20 * 365.25, max(survFit$time))))))
+  }
+  ## Plot
   p <- plot(
     survFit,
     frame = FALSE,
@@ -93,29 +101,13 @@ custom_survplot <- function(survFit,
     yaxt = "n",
     xaxt = "n"
   )
-  if (is.null(xmax)) {
-    xmax <- ifelse(max(survFit$time) < 1826.25, 1826.25,
-                        ifelse(max(survFit$time) < 3652.5, 3652.5,
-                               ifelse(max(survFit$time) < 5478.75, 5478.75,
-                                      ifelse(max(survFit$time) < 7305, 7305, 9496.5))))
-    axis(1,
-         at = seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5)),
-         seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5)) / 365.25,
-         cex.axis = 5 / 7,
-         lwd = 5 / 8,
-         tck = -0.025,
-         padj = -1.8
-    )
-  } else {
-    axis(1,
-         at = seq(0, xmax, 730.5),
-         seq(0, xmax, 730.5)  / 365.25,
-         cex.axis = 5 / 7,
-         lwd = 5 / 8,
-         tck = -0.025,
-         padj = -1.8
-    )
-  }
+  axis(1,
+       at = seq(0, xmax, ifelse(xmax <= 4*365.25, 365.25, 730.5)),
+       seq(0, xmax, ifelse(xmax <= 4*365.25, 365.25, 730.5))  / 365.25,
+       cex.axis = 5 / 7,
+       lwd = 5 / 8,
+       tck = -0.025,
+       padj = -1.8)
   axis(2,
        at = seq(0, 1, 0.2),
        seq(0, 1, 0.2),
@@ -163,9 +155,9 @@ custom_survplot <- function(survFit,
   )
 
   ## Include log-rank p-value
-  pvalue <- surv_pvalue(survFit, test.for.trend = trend)$pval
-  text(0.8 * xmax, 0.4,
-       paste0("p = ", format.pval(pvalue, digits = 2)),
+  pvalue <- survminer::surv_pvalue(survFit, test.for.trend = trend)$pval
+  text(0.2 * xmax, 0.1,
+       bquote(paste(italic("P") ~ "=" ~ .(format.pval(pvalue, digits = 2)))),
        cex = 6 /7)
 
   ## Risk table
@@ -173,7 +165,8 @@ custom_survplot <- function(survFit,
     group.labels <- gsub(x = names(survFit$strata), pattern = ".*=| .*", "")
 
     ## Compute number at risk
-    time.pt <- seq(0, xmax, ifelse(xmax < 1826.25, 365.25, 730.5))
+    time.pt <- seq(0, xmax, ifelse(xmax <= 1826.25, 182.625,
+                                   ifelse(xmax <= 6*365.25, 365.25, 730.5)))
     ix = 0
     n.risk = c()
     for (kk in 1:(length(survFit$strata))) {
@@ -187,17 +180,17 @@ custom_survplot <- function(survFit,
     }
     dimnames(n.risk)[[2]] = time.pt
 
-    if (mar[1]<4+length(group.labels)) {
-      mar[1] <- 4+length(group.labels)
+    if (mar[1] < 4 + length(group.labels)) {
+      mar[1] <- 4 + length(group.labels)
     }
     org.mar <- par()$mar
-    par(mar=mar)
+    par(mar = mar)
 
     ## Plot number at risk
     cust_margin_dist <- seq(from = 9.4, by = 0.8, length.out = 10)
     for (i in 1:length(group.labels)) {
       mtext(side = 1,
-            at = -0.24*xmax,
+            at = -0.24 * xmax,
             line = cust_margin_dist[i],
             text = group.labels[i],
             col = pal[i],
@@ -207,13 +200,13 @@ custom_survplot <- function(survFit,
             at = time.pt,
             line = cust_margin_dist[i],
             text = n.risk[i, ],
-            col = pal[i],
+            # col = pal[i],
             cex = 5/7)
     }
 
-    ## reset mar that was changed to allow adding numbers underneath plot
+    ## Reset mar that was changed to allow adding numbers underneath plot
     if (risk.table) {
-      par(mar=org.mar)
+      par(mar = org.mar)
     }
   }
 
