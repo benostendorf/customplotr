@@ -4,7 +4,9 @@
 \name{color_palettes}
 \alias{color_palettes}
 \title{Custom color palettes}
-\format{list of different color palettes}
+\format{
+list of different color palettes
+}
 \usage{
 data(color_palettes)
 }

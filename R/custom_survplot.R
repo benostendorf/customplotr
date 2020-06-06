@@ -28,8 +28,6 @@
 ##' }
 ##' @export
 ##'
-##' @import survival
-##' @import survminer
 custom_survplot <- function(survFit,
                             filename = NULL,
                             title = NULL,

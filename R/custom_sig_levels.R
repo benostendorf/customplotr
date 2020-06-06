@@ -14,8 +14,6 @@
 ##'               title = "Plot title")
 ##' }
 ##' @export
-##'
-##' @importFrom dplyr mutate
 custom_sig_levels <- function(data,
                               column = "p_val"
                               ) {
@@ -25,12 +23,13 @@ custom_sig_levels <- function(data,
             holding p-values (default: 'p_val'")
   }
 
-   data_mut <- mutate(data,
-                      significance = case_when(p_val < 0.0001 ~ "****",
-                                               p_val < 0.001 ~ "***",
-                                               p_val < 0.01 ~ "**",
-                                               p_val < 0.05 ~ "*",
-                                               p_val >= 0.05 ~ "n.s."))
+  data_mut <- dplyr::mutate(data,
+                            significance = case_when(
+                              p_val < 0.0001 ~ "****",
+                              p_val < 0.001 ~ "***",
+                              p_val < 0.01 ~ "**",
+                              p_val < 0.05 ~ "*",
+                              p_val >= 0.05 ~ "n.s."
+                            ))
    return(data_mut)
-
 }

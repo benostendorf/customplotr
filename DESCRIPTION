@@ -1,7 +1,7 @@
 Package: customplotr
 Type: Package
 Title: Plot customized graphs
-Version: 0.1.1
+Version: 0.2.1
 Author: Benjamin Ostendorf <benjamin.ostendorf@gmail.com>
 Maintainer: Benjamin Ostendorf <benjamin.ostendorf@gmail.com>
 Description: The customplotr packages provides customized functions for plotting barcharts, 
@@ -9,7 +9,7 @@ Description: The customplotr packages provides customized functions for plotting
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Imports: 
     dplyr,
     Seurat,
@@ -19,3 +19,5 @@ Imports:
     scales,
     survival,
     survminer
+Depends: 
+    R (>= 4.0)
