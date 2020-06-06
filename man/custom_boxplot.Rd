@@ -4,9 +4,19 @@
 \alias{custom_boxplot}
 \title{Plot customized boxplot}
 \usage{
-custom_boxplot(data, filename = NULL, width = 1.4, height = 1.55, x,
-  y, ylab = NULL, log_y = FALSE, title = NULL, jitter = FALSE,
-  custom_palette = NULL)
+custom_boxplot(
+  data,
+  filename = NULL,
+  width = 1.4,
+  height = 1.55,
+  x,
+  y,
+  ylab = NULL,
+  log_y = FALSE,
+  title = NULL,
+  jitter = FALSE,
+  custom_palette = NULL
+)
 }
 \arguments{
 \item{data}{matrix; contains variables x and y}

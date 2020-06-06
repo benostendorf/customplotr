@@ -7,9 +7,15 @@ cell subset; perform p-adjustment for number of subsets to test for;
 this function is based on Seurat's FindMarkers function and adds custom variables to
 the resulting data frame}
 \usage{
-custom_FindMarkers(data, idents = NULL, features,
-  grouping_var = "genotype", ident.1 = NULL, min.pct = 0,
-  logfc.threshold = 0)
+custom_FindMarkers(
+  data,
+  idents = NULL,
+  features,
+  grouping_var = "genotype",
+  ident.1 = NULL,
+  min.pct = 0,
+  logfc.threshold = 0
+)
 }
 \arguments{
 \item{data}{Seurat object}

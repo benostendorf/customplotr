@@ -9,8 +9,6 @@
 ##' @param custom_pal character; colors to customize group colors
 ##'
 ##' @export
-##'
-##' @import ggplot2
 custom_PCA <-
   function(object,
            intgroup = "condition",
@@ -54,7 +52,7 @@ custom_PCA <-
       attr(d, "percentVar") <- percentVar[1:2]
       return(d)
     }
-    ggplot(data = d, aes_string(x = "PC1", y = "PC2", color = "group")) +
+    ggplot2::ggplot(data = d, aes_string(x = "PC1", y = "PC2", color = "group")) +
       geom_point(size = pointsize, alpha = 0.75, stroke = 0) +
       xlab(paste0("PC1: ", round(percentVar[1] * 100), " % variance")) +
       ylab(paste0("PC2: ", round(percentVar[2] * 100), " % variance")) +

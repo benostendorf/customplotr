@@ -18,10 +18,6 @@
 ##' }
 ##' @export
 ##'
-##' @import ggplot2
-##' @importFrom ggrastr geom_point_rast
-##' @importFrom scales pretty_breaks
-##'
 custom_qqplot <- function(data,
                           var,
                           group,
@@ -79,7 +75,7 @@ custom_qqplot <- function(data,
          plot_margins <- margin(0.1, 0.1, 0.1, 0.1, "cm"))
 
   plot <-
-    ggplot(qqplot_res) + {
+    ggplot2::ggplot(qqplot_res) + {
       if (raster) ggrastr::geom_point_rast(aes(x = x, y = y, color = direction), size = 5,
                                                  raster.width = width, raster.height = height, raster.dpi = 600)
     } + {

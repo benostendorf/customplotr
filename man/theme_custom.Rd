@@ -4,7 +4,9 @@
 \name{theme_custom}
 \alias{theme_custom}
 \title{Custom ggplot theme}
-\format{ggplot theme object}
+\format{
+ggplot theme object
+}
 \usage{
 data(theme_custom)
 }

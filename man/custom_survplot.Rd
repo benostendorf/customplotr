@@ -4,11 +4,21 @@
 \alias{custom_survplot}
 \title{Plot customized survival graphs}
 \usage{
-custom_survplot(survFit, filename = NULL, title = NULL,
-  xlab = "Overall survival (years)", ylab = "Survival probability",
-  xmax = NULL, trend = FALSE, custom_palette = NULL,
-  custom_legends = NULL, risk.table = FALSE, mar = c(12, 9, 3, 2),
-  width = 2, height = 2.2)
+custom_survplot(
+  survFit,
+  filename = NULL,
+  title = NULL,
+  xlab = "Overall survival (years)",
+  ylab = "Survival probability",
+  xmax = NULL,
+  trend = FALSE,
+  custom_palette = NULL,
+  custom_legends = NULL,
+  risk.table = FALSE,
+  mar = c(12, 9, 3, 2),
+  width = 2,
+  height = 2.2
+)
 }
 \arguments{
 \item{survFit}{survfit object}

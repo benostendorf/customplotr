@@ -4,10 +4,22 @@
 \alias{custom_qqplot}
 \title{Customized Q-Q plot}
 \usage{
-custom_qqplot(data, var, group, width = NULL, height = NULL,
-  xlab = NULL, ylab = NULL, no.labels = FALSE, pal = NULL,
-  filename = NULL, title = TRUE, raster = TRUE,
-  within.plot.label = FALSE, return.data = FALSE)
+custom_qqplot(
+  data,
+  var,
+  group,
+  width = NULL,
+  height = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  no.labels = FALSE,
+  pal = NULL,
+  filename = NULL,
+  title = TRUE,
+  raster = TRUE,
+  within.plot.label = FALSE,
+  return.data = FALSE
+)
 }
 \arguments{
 \item{data}{data.frame with columns with normalized gene expression values

@@ -4,7 +4,9 @@
 \name{custom_linewidth}
 \alias{custom_linewidth}
 \title{Custom linewidth}
-\format{numeric value}
+\format{
+numeric value
+}
 \usage{
 data(custom_linewidth)
 }

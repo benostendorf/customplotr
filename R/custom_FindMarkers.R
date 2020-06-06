@@ -21,11 +21,8 @@
 ##'
 ##' @example
 ##' \dontrun{
-
 ##' }
 ##' @export
-##'
-##' @importFrom Seurat FindMarkers
 custom_FindMarkers <- function(data,
                        idents = NULL,
                        features,
@@ -34,7 +31,6 @@ custom_FindMarkers <- function(data,
                        min.pct = 0,
                        logfc.threshold = 0
                        ) {
-  require(Seurat)
 
   if(is.null(idents)) {
     idents <- levels(Idents(data))
@@ -62,8 +58,8 @@ custom_FindMarkers <- function(data,
 
     res <-
       res %>%
-      group_by(feature) %>%
-      mutate(p_val_adj_subsets_BH = p.adjust(p_val, method = "BH", n = nlevels(data)),
+      dplyr::group_by(feature) %>%
+      dplyr::mutate(p_val_adj_subsets_BH = p.adjust(p_val, method = "BH", n = nlevels(data)),
              sig_p_val_adj_BH = case_when(p_val_adj_subsets_BH < 0.0001 ~ "****",
                                       p_val_adj_subsets_BH < 0.001 ~ "***",
                                       p_val_adj_subsets_BH < 0.01 ~ "**",
@@ -74,13 +70,11 @@ custom_FindMarkers <- function(data,
                                           p_val < 0.01 ~ "**",
                                           p_val < 0.05 ~ "*",
                                           p_val >= 0.05 ~ "n.s.")) %>%
-      ungroup() %>%
-      rename(p_val_adj_all_bonf = p_val_adj)
+      dplyr::ungroup() %>%
+      dplyr::rename(p_val_adj_all_bonf = p_val_adj)
 
     DEA_results <-
-      bind_rows(DEA_results, res)
+      dplyr::bind_rows(DEA_results, res)
   }
-  return(arrange(DEA_results, feature, subset))
+  return(dplyr::arrange(DEA_results, feature, subset))
 }
-
-

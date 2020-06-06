@@ -5,7 +5,6 @@
 ##' @docType data
 ##' @name color_palettes
 ##' @usage data(color_palettes)
-##' @import RColorBrewer
 NULL
 
 ##' Custom linewidth
@@ -24,5 +23,4 @@ NULL
 ##' @docType data
 ##' @name theme_custom
 ##' @usage data(theme_custom)
-##' @import ggplot2
 NULL

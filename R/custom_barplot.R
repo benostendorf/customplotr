@@ -18,8 +18,6 @@
 ##'                title = "Plot title")
 ##' }
 ##'
-##' @import grDevices
-##'
 ##' @export
 custom_barplot <-
   function(data,
@@ -30,10 +28,8 @@ custom_barplot <-
            title = "Plot title",
            ylab = "Fraction of patients") {
 
-    ## Convert tibble to data frame
-    if (is_tibble(data)) {
-      data <- as.data.frame(data)
-    }
+    ## Convert to data frame
+    data <- as.data.frame(data)
 
     ## Drop empty factor levels
     data[, x] <- factor(data[, x])

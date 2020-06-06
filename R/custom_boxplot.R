@@ -24,9 +24,6 @@
 ##'
 ##' @export
 ##'
-##' @import ggplot2
-##' @import dplyr
-##' @import grid
 custom_boxplot <-
   function(data,
            filename = NULL,
@@ -51,10 +48,8 @@ custom_boxplot <-
       )
     }
 
-    ## Convert tibble to data frame
-    if (is_tibble(data)) {
-      data <- as.data.frame(data)
-    }
+    ## Convert to data frame
+    data <- as.data.frame(data)
 
     ## Drop empty levels from dataframe and remove lines with NAs
     ## (the latter prevents ggplot from emitting warnings about removing NAs!!)
@@ -79,8 +74,8 @@ custom_boxplot <-
     # }
 
     ## ggplot
-    p <- ggplot(data = data, aes_string(x = x, y = y)) +
-      geom_boxplot(
+    p <- ggplot2::ggplot(data = data, aes_string(x = x, y = y)) +
+      ggplot2::geom_boxplot(
         fill = pal,
         alpha = ifelse(jitter, 0.5, 1),
         lwd = 72.27 / 96 * 0.5,
@@ -90,7 +85,7 @@ custom_boxplot <-
       ) +
       {
         if (jitter)
-          geom_jitter(
+          ggplot2::geom_jitter(
             aes_string(fill = x),
             alpha = 0.8,
             size = 1.5,
@@ -115,7 +110,7 @@ custom_boxplot <-
       ggtitle(title) +
       ylab(ifelse(!is.null(ylab), ylab, y)) +
       geom_text(
-        data = data %>% count_(x),
+        data = data %>% count(x),
         aes_string(
           x = x,
           y = ifelse(
@@ -131,7 +126,7 @@ custom_boxplot <-
       )  +
       if (jitter == TRUE) {
         geom_text(
-          data = data %>% count_(x),
+          data = data %>% count(x),
           aes_string(
             x = x,
             y = ifelse(
@@ -148,9 +143,9 @@ custom_boxplot <-
       }
 
     # Override clipping
-    gt <- ggplot_gtable(ggplot_build(p))
+    gt <- ggplot2::ggplot_gtable(ggplot_build(p))
     gt$layout$clip[gt$layout$name == "panel"] <- "off"
-    grid.draw(gt)
+    grid::grid.draw(gt)
 
     ## Close pdf export
     if (is.character(filename)) {

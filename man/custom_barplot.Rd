@@ -4,9 +4,15 @@
 \alias{custom_barplot}
 \title{Plot customized barplot}
 \usage{
-custom_barplot(data, filename = NULL, x, fill_variable,
-  custom_palette = NULL, title = "Plot title",
-  ylab = "Fraction of patients")
+custom_barplot(
+  data,
+  filename = NULL,
+  x,
+  fill_variable,
+  custom_palette = NULL,
+  title = "Plot title",
+  ylab = "Fraction of patients"
+)
 }
 \arguments{
 \item{data}{matrix; contains variables x and fill_variable}
