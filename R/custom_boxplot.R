@@ -59,8 +59,8 @@ custom_boxplot <-
     ## Define color palette for plot depending on number of groups
     if (is.null(custom_palette)) {
       ifelse(nlevels(data[, x]) < 5,
-             pal <- color_palettes$four_colors[1:nlevels(data[, x])],
-             pal <- color_palettes$six_colors[1:nlevels(data[, x])]
+             pal <- customplotr::color_palettes$four_colors[1:nlevels(data[, x])],
+             pal <- customplotr::color_palettes$six_colors[1:nlevels(data[, x])]
       )
     } else {
       pal <- custom_palette

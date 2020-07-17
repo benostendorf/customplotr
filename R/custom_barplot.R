@@ -52,9 +52,9 @@ custom_barplot <-
       ifelse(
         nlevels(data[, fill_variable]) < 5,
         pal <-
-          rev(color_palettes$four_colors[1:nlevels(data[, fill_variable])]),
+          rev(customplotr::color_palettes$four_colors[1:nlevels(data[, fill_variable])]),
         pal <-
-          rev(color_palettes$six_colors [1:nlevels(data[, fill_variable])])
+          rev(customplotr::color_palettes$six_colors [1:nlevels(data[, fill_variable])])
       )
     } else {
       pal <- rev(custom_palette)

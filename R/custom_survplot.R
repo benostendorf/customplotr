@@ -68,8 +68,8 @@ custom_survplot <- function(survFit,
   ## Define color palette for plot depending on number of groups
   ifelse(
     length(survFit$strata) < 5,
-    pal <- color_palettes$four_colors[1:length(survFit$strata)],
-    pal <- color_palettes$six_colors[1:length(survFit$strata)]
+    pal <- customplotr::color_palettes$four_colors[1:length(survFit$strata)],
+    pal <- customplotr::color_palettes$six_colors[1:length(survFit$strata)]
   )
   ## Integrate custom palettes
   ifelse(is.null(custom_palette),
