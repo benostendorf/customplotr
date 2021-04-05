@@ -9,6 +9,7 @@
 ##' @param y character; variable for y aesthetic
 ##' @param ylab character; y-axis label
 ##' @param log_y logical; switch logarithmic display of y-axis
+##' @param expand_y_limit logical; force y axis to start at 0
 ##' @param jitter logical; overplot with jittered individual datapoints
 ##' @param custom_palette character; define color palette for x
 ##' @param title character; title of plot
@@ -33,6 +34,7 @@ custom_boxplot <-
            y,
            ylab = NULL,
            log_y = FALSE,
+           expand_y_limit = FALSE,
            title = NULL,
            jitter = FALSE,
            custom_palette = NULL) {
@@ -105,6 +107,10 @@ custom_boxplot <-
           scale_y_continuous(trans = 'log2')
       } +
       # scale_y_continuous(breaks = c(0, 20, 40, 60), limits = c(0, 70)) +
+      {
+        if (expand_y_limit)
+          expand_limits(y = 0)
+      } +
       theme_bw() +
       theme_custom +
       ggtitle(title) +
