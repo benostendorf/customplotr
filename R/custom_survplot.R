@@ -10,6 +10,7 @@
 ##' @param xlab character; x-axis label
 ##' @param ylab character; y-axis label
 ##' @param xmax numeric; x-axis limit
+##' @param timescale character; adjust x axis scale to "years" or "days"
 ##' @param trend logical; toggle test for trend in logrank test
 ##' @param custom_palette character; color palette for groups
 ##' @param custom_legends character; overwrite legend labels (see warning below)
@@ -34,6 +35,7 @@ custom_survplot <- function(survFit,
                             xlab = "Overall survival (years)",
                             ylab = "Survival probability",
                             xmax = NULL,
+                            timescale = "years",
                             trend = FALSE,
                             custom_palette = NULL,
                             custom_legends = NULL,
@@ -85,13 +87,25 @@ custom_survplot <- function(survFit,
                                  ifelse(max(survFit$time) < 15 * 365.25, 15 * 365.25,
                                         ifelse(max(survFit$time) < 20 * 365.25, 20 * 365.25, max(survFit$time))))))
   }
+
+  if (!(timescale %in% c("years", "days"))) {
+    error("Timescale must be one of 'years' or 'days'")
+  }
+  if (timescale == "years") {
+    x_interval <- ifelse(xmax <= 4*365.25, 365.25, 730.5)
+    x_divider <- 365.25
+  } else if (timescale == "days") {
+    x_interval <- 1
+    x_divider <- 1
+  }
+
   ## Plot
   p <- plot(
     survFit,
     frame = FALSE,
     lwd = 1.5,
     col = pal,
-    xscale = 365.25,
+    xscale = x_divider,
     mark.time = TRUE,
     cex = 0.5,
     cex.axis = 5 / 7,
@@ -100,8 +114,8 @@ custom_survplot <- function(survFit,
     xaxt = "n"
   )
   axis(1,
-       at = seq(0, xmax, ifelse(xmax <= 4*365.25, 365.25, 730.5)),
-       seq(0, xmax, ifelse(xmax <= 4*365.25, 365.25, 730.5))  / 365.25,
+       at = seq(0, xmax, x_interval),
+       seq(0, xmax, x_interval)  / x_divider,
        cex.axis = 5 / 7,
        lwd = 5 / 8,
        tck = -0.025,
