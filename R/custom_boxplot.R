@@ -110,7 +110,7 @@ custom_boxplot <-
       ggtitle(title) +
       ylab(ifelse(!is.null(ylab), ylab, y)) +
       geom_text(
-        data = data %>% count(x),
+        data = data %>% count(.data[[x]]),
         aes_string(
           x = x,
           y = ifelse(
@@ -126,7 +126,7 @@ custom_boxplot <-
       )  +
       if (jitter == TRUE) {
         geom_text(
-          data = data %>% count(x),
+          data = data %>% count(.data[[x]]),
           aes_string(
             x = x,
             y = ifelse(
