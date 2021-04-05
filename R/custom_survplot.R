@@ -95,9 +95,10 @@ custom_survplot <- function(survFit,
     x_interval <- ifelse(xmax <= 4*365.25, 365.25, 730.5)
     x_divider <- 365.25
   } else if (timescale == "days") {
-    x_interval <- 1
+    x_interval <- 2
     x_divider <- 1
   }
+
 
   ## Plot
   p <- plot(
@@ -177,8 +178,13 @@ custom_survplot <- function(survFit,
     group.labels <- gsub(x = names(survFit$strata), pattern = ".*=| .*", "")
 
     ## Compute number at risk
-    time.pt <- seq(0, xmax, ifelse(xmax <= 1826.25, 182.625,
-                                   ifelse(xmax <= 6*365.25, 365.25, 730.5)))
+    if (timescale == "years") {
+      time.pt <- seq(0, xmax, ifelse(xmax <= 1826.25, 182.625,
+                                     ifelse(xmax <= 6*365.25, 365.25, 730.5)))
+    } else {
+      time.pt <- seq(0, xmax, 2)
+    }
+
     ix = 0
     n.risk = c()
     for (kk in 1:(length(survFit$strata))) {
