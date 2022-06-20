@@ -13,7 +13,7 @@ custom_PCA <-
   function(object,
            intgroup = "condition",
            ntop = 500,
-           pointsize = 2,
+           pointsize = 1,
            returnData = FALSE,
            custom_pal = NULL) {
 
@@ -72,5 +72,7 @@ custom_PCA <-
             plot.title = element_text(size = 7, hjust = 0.5),
             strip.text = element_text(size = 6, face = "bold"),
             panel.background = element_blank(),
-            legend.text = element_text(size = 5))
+            legend.text = element_text(size = 5, margin = margin(l = -10)),
+            legend.margin =  margin(-10, 0, -10, -10),
+            legend.key.height = unit(2, "mm"))
   }
