@@ -20,13 +20,7 @@
 ##' @param height numeric; height of pdf export in cm
 ##' @author Benjamin N. Ostendorf
 ##'
-##' @example
-##' \dontrun{
-##' survival.plot(survFit = survfit,
-##'               filename = "plots/survival.pdf",
-##'               custom_legends = c("Group 1", "Group 2"),
-##'               title = "Plot title")
-##' }
+##'
 ##' @export
 ##'
 custom_survplot <- function(survFit,

@@ -14,15 +14,6 @@
 ##' @param custom_palette character; define color palette for x
 ##' @param title character; title of plot
 ##'
-##' @example
-##' \dontrun{
-##' custom_boxplot(data = dataframe,
-##'                filename = "plots/boxplot.pdf",
-##'                x = "categorical_variable",
-##'                fill_variable = "numeric_variable",
-##'                title = "Plot title")
-##' }
-##'
 ##' @export
 ##'
 custom_boxplot <-

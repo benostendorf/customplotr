@@ -13,6 +13,7 @@ custom_boxplot(
   y,
   ylab = NULL,
   log_y = FALSE,
+  expand_y_limit = FALSE,
   title = NULL,
   jitter = FALSE,
   custom_palette = NULL
@@ -34,6 +35,8 @@ custom_boxplot(
 \item{ylab}{character; y-axis label}
 
 \item{log_y}{logical; switch logarithmic display of y-axis}
+
+\item{expand_y_limit}{logical; force y axis to start at 0}
 
 \item{title}{character; title of plot}
 

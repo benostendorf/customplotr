@@ -11,6 +11,7 @@ custom_survplot(
   xlab = "Overall survival (years)",
   ylab = "Survival probability",
   xmax = NULL,
+  timescale = "years",
   trend = FALSE,
   custom_palette = NULL,
   custom_legends = NULL,
@@ -32,6 +33,8 @@ custom_survplot(
 \item{ylab}{character; y-axis label}
 
 \item{xmax}{numeric; x-axis limit}
+
+\item{timescale}{character; adjust x axis scale to "years" or "days"}
 
 \item{trend}{logical; toggle test for trend in logrank test}
 

@@ -9,14 +9,6 @@
 ##' @param title character
 ##' @param ylab character; y-axis label
 ##'
-##' @example
-##' \dontrun{
-##' custom_barplot(data = dataframe,
-##'                filename = "plots/barchart.pdf",
-##'                x = "variant",
-##'                fill_variable = "gender",
-##'                title = "Plot title")
-##' }
 ##'
 ##' @export
 custom_barplot <-

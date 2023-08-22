@@ -12,10 +12,6 @@
 ##' @param return.data logical; return plot as list instead of printing
 ##' @author Benjamin N. Ostendorf
 ##'
-##' @example
-##' \dontrun{
-
-##' }
 ##' @export
 ##'
 custom_qqplot <- function(data,

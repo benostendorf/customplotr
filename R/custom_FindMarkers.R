@@ -19,9 +19,6 @@
 ##' @param logfc.threshold numeric; passed to Seurat::FindMarkers
 ##' @author Benjamin N. Ostendorf
 ##'
-##' @example
-##' \dontrun{
-##' }
 ##' @export
 custom_FindMarkers <- function(data,
                        idents = NULL,

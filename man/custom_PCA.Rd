@@ -8,7 +8,7 @@ custom_PCA(
   object,
   intgroup = "condition",
   ntop = 500,
-  pointsize = 2,
+  pointsize = 1,
   returnData = FALSE,
   custom_pal = NULL
 )

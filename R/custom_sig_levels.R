@@ -6,13 +6,7 @@
 ##' @param column character column holding p-values in data
 ##' @author Benjamin N. Ostendorf
 ##'
-##' @example
-##' \dontrun{
-##' survival.plot(survFit = survfit,
-##'               filename = "plots/survival.pdf",
-##'               custom_legends = c("Group 1", "Group 2"),
-##'               title = "Plot title")
-##' }
+##'
 ##' @export
 custom_sig_levels <- function(data,
                               column = "p_val"
