@@ -13,6 +13,7 @@ theme_custom2 <-
     legend.text = element_text(size = 5),
     legend.title = element_blank(),
     # legend.margin = margin(t = -1, r = 0, l = -0.3, unit = 'cm'),
-    legend.key.size = unit(0.25, "line")
+    legend.key.size = unit(0.25, "line"),
+    legend.key = element_blank()
   )
 usethis::use_data(theme_custom2, overwrite = TRUE)
