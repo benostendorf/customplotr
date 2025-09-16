@@ -1,0 +1,13 @@
+citHeader("To cite package 'customplotr' in publications use:")
+
+citEntry(entry = "Manual",
+  title        = "Customized plotting with {customplotr}",
+  author       = personList(as.person("Benjamin N Ostendorf")),
+  year         = "2019",
+  url          = "http://www.github.com/XXX",
+
+  textVersion  =
+  paste("Benjamin N Ostendorf (2019).",
+        "Customplotr: customized plotting functions.",
+        "URL http://www.github.org/XXX")
+)

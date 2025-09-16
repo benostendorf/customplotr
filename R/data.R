@@ -15,12 +15,3 @@ NULL
 ##' @name custom_linewidth
 ##' @usage data(custom_linewidth)
 NULL
-
-##' Custom ggplot theme
-##'
-##' A customized theme for ggplot2.
-##' @format ggplot theme object
-##' @docType data
-##' @name theme_custom
-##' @usage data(theme_custom)
-NULL

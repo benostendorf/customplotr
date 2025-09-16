@@ -1,9 +1,16 @@
-theme_custom2 <-
+#' Custom Ostendorflab ggplot theme #2
+#'
+#' @description The Ostendorflab #2 custom ggplot theme
+#'
+#' @export
+#'
+#' @examples
+theme_custom2 <- function(custom_linewidth = 5/8 * 72.27 / 96 * 0.5) {
   ggplot2::theme(
     # text = element_text(family = "Helvetica-Narrow"),
     panel.grid = element_blank(),
-    axis.line = element_line(size = custom_linewidth),
-    axis.ticks = element_line(size = custom_linewidth),
+    axis.line = element_line(linewidth = custom_linewidth),
+    axis.ticks = element_line(linewidth = custom_linewidth),
     axis.ticks.length = unit(0.075, "cm"),
     # axis.text.x = element_text(hjust = 1),
     axis.title = element_text(size = 6),
@@ -15,4 +22,4 @@ theme_custom2 <-
     # legend.margin = margin(t = -1, r = 0, l = -0.3, unit = 'cm'),
     legend.key.size = unit(0.25, "line")
   )
-usethis::use_data(theme_custom2, overwrite = TRUE)
+}
